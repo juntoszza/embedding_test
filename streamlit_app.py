@@ -1,3 +1,7 @@
+import streamlit as st
+import requests
+
+
 def get_embedding_from_model(query):
     headers = {
         "Authorization": f"Bearer {access_token}",

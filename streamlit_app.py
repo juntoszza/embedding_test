@@ -1,20 +1,28 @@
 import streamlit as st
 import requests
-import numpy as np
 
-# Vertex AI API 설정
+# Vertex AI 설정
 vertex_ai_endpoint = "https://<vertex-ai-endpoint>"
+embedding_model_endpoint = "https://<embedding-model-endpoint>"
 access_token = "<your-access-token>"
 index_endpoint_name = "<index-endpoint-name>"
 deployed_index_id = "<deployed-index-id>"
 
-# 임베딩 함수 (간단한 예시로 가정)
-def embed_query(query):
-    # 실제 임베딩 모델을 사용해 쿼리를 벡터로 변환해야 함
-    return np.random.rand(100).tolist()
+def get_embedding_from_model(query):
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json"
+    }
+    data = {
+        "instances": [{"text": query}]
+    }
+    
+    response = requests.post(embedding_model_endpoint, headers=headers, json=data)
+    embedding = response.json()["predictions"][0]["embedding"]
+    return embedding
 
 def search_vertex_ai(query):
-    query_embedding = embed_query(query)
+    query_embedding = get_embedding_from_model(query)
     headers = {
         "Authorization": f"Bearer {access_token}",
         "Content-Type": "application/json"

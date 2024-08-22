@@ -51,3 +51,17 @@ def search_vertex_ai(query):
     else:
         st.error("Failed to search in Vertex AI")
         return {}
+
+
+# Streamlit UI 구성
+st.title("Vertex AI 벡터 검색")
+
+query = st.text_input("검색어를 입력하세요:")
+
+if st.button("검색"):
+    if query:
+        results = search_vertex_ai(query)
+        st.write("검색 결과:")
+        st.json(results)
+    else:
+        st.write("검색어를 입력하세요.")
